@@ -1,1 +1,0 @@
-Service structure for agriculture
