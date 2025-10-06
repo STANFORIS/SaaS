@@ -1,4 +1,6 @@
-# Stanforis Rwanda — National Life Digital Mirror
+# Stanforis Rwanda Mult_Continuum System
+
+```
 ███████╗████████╗ █████╗ ███╗   ██╗███████╗ ██████╗ ██████╗ 
 ██╔════╝╚══██╔══╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔═══██╗
 ███████╗   ██║   ███████║██╔██╗ ██║█████╗  ██║     ██║   ██║
@@ -8,16 +10,12 @@
           Stanforis Rwanda Mult_Continuum System
    ───────────────────────────────────────────────────────────
    “A Federated, Intelligent, National Data Continuum”
-
+```
 
 > **Project:** Stanforis Rwanda - Multi-Tenant SaaS Platform
->
 > **Author:** IRABARUTA Aminadabu
->
-> **Company:** Stanforis Research & Scientific Authority
->
+> **Company:** STANFORIS RESEARCH & SCIENTIFIC AUTHORITY
 > **Version:** 1.0.0
->
 > **Purpose:** Build a living, national-scale digital twin of Rwanda, covering multiple sectors, with integrated IoT, microservices, dashboards, and citizen/enterprise services.
 
 ---
