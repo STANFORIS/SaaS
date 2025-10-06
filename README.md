@@ -107,13 +107,14 @@ The system follows a layered architecture:
 
 ## A) System Layers and Technologies
 ---
-| Layer               | Technology                             | Purpose / Role                                                                 |
-|------------------- -|----------------------------------------|-------------------------------------------------------------------------------|
-| IoT Device Layer    | MQTT (HiveMQ, EMQX)                    | Direct communication with IoT devices. Handles telemetry and device events.   |
-| Event Bus Layer     | Apache Kafka                           | National-scale event backbone for high-throughput messaging and stream processing. |
-| Microservice Layer  | Rust microservices                     | Domain-specific processing and persistence. Ensures decoupling and fault tolerance. |
-| Data Lake Layer     | ClickHouse / TimescaleDB / PostgreSQL  | Data storage, analytics, and transactional support. Supports AI pipelines. |
-| Frontend Layer      | Flutter                                | Visualization, control interfaces, citizen services, and offline-first capabilities. |
+| Layer               | Technology                     | Purpose / Role                                                                 |
+|--------------------|--------------------------------|-------------------------------------------------------------------------------|
+| IoT Device Layer    | MQTT (HiveMQ, EMQX)           | Direct communication with IoT devices. Handles telemetry and device events.   |
+| Event Bus Layer     | Apache Kafka                   | National-scale event backbone for high-throughput messaging and stream processing. |
+| Microservice Layer  | Rust microservices             | Domain-specific processing and persistence. Ensures decoupling and fault tolerance. |
+| Data Lake Layer     | ClickHouse / TimescaleDB / PostgreSQL | Data storage, analytics, and transactional support. Supports AI pipelines. |
+| Frontend Layer      | Flutter                        | Visualization, control interfaces, citizen services, and offline-first capabilities. |
+
 ---
 
 ## B) Data Flow & Integration
