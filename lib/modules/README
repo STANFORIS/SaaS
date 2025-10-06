@@ -1,0 +1,5 @@
+│       │   ├── modules/
+│       │   │   ├── agriculture/     # agriculture dashboards
+│       │   │   ├── energy/          # energy management pages
+│       │   │   ├── finance_banking/ # banking dashboard UI
+│       │   │   └── ...              # etc.

@@ -1,0 +1,4 @@
+│       │   ├── core/
+│       │   │   ├── api_clients/ # fetch data from backend services
+│       │   │   ├── models/      # define data models from APIs
+│       │   │   └── utils/       # shared helpers
