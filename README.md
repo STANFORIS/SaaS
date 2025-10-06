@@ -12,8 +12,6 @@
                     
 ```
 
-
-
 > **Project:** Stanforis Rwanda Mult_Continuum Systems Interoperability
 >
 > **Author:** IRABARUTA Aminadabu
@@ -98,218 +96,295 @@ The platform is designed as a multi-tenant SaaS ecosystem with:
 
 The system follows a layered architecture:
 
-1. **Device / Edge** — IoT sensors, cameras, meters. Communicate via MQTT to local brokers (HiveMQ, EMQX).
+1. **Device / Edge** — IoT sensors, cameras, meters. Communicate via MQTT to local brokers (HiveMQ).
 2. **Edge Compute** — Local Rust microservices that preprocess telemetry and publish to Kafka.
 3. **Event Bus** — Apache Kafka as the central, durable event backbone.
 4. **Sector Microservices** — Rust services handling domain logic and persistence (Postgres/SurrealDB/MongoDB).
 5. **Analytics / AI** — Stream processors, ClickHouse/TimescaleDB, Python/Rust ML modules.
 6. **API Gateway** — gRPC / WebSocket / REST gateway that exposes aggregated services to Flutter clients.
 7. **Frontend / Dashboards** — Flutter mobile/web apps with local DBs (Isar/SQLite/Drift) and live-sync.
+---
 
-Refer to the Appendix for visual diagrams and ASCII/dot graphs.
+## A) System Layers and Technologies
+---
+| Layer               | Technology                             | Purpose / Role                                                                 |
+|------------------- -|----------------------------------------|-------------------------------------------------------------------------------|
+| IoT Device Layer    | MQTT (HiveMQ, EMQX)                    | Direct communication with IoT devices. Handles telemetry and device events.   |
+| Event Bus Layer     | Apache Kafka                           | National-scale event backbone for high-throughput messaging and stream processing. |
+| Microservice Layer  | Rust microservices                     | Domain-specific processing and persistence. Ensures decoupling and fault tolerance. |
+| Data Lake Layer     | ClickHouse / TimescaleDB / PostgreSQL  | Data storage, analytics, and transactional support. Supports AI pipelines. |
+| Frontend Layer      | Flutter                                | Visualization, control interfaces, citizen services, and offline-first capabilities. |
+---
+
+## B) Data Flow & Integration
+---
+ B.1 Storage & Analytics Flow
+
+1. ClickHouse → Analytics & AI-ready aggregation
+2. TimescaleDB → IoT time-series data storage
+3. PostgreSQL → Transactional and multi-tenant data
+4. AI Engine → Rust/Python bridge for AI/ML computation
+
+
+ B.2 Communication & Interfacing
+
+1. gRPC → Microservice-to-microservice and backend-to-frontend RPC
+2. WebSocket → Real-time updates to dashboards and mobile clients
+3. Kafka Bus → High-throughput event streaming
+4. Flutter → Frontend visualization & control
+5. NATS → Lightweight messaging for microservices
+6. SurrealDB live queries → Real-time database subscriptions
+7. Firebase → Last-mile app-level updates
+---
+
+## C) Core System Capabilities
 
 ---
+|              Capability                    |      Supported By / Notes                      |
+|--------------------------------------------|----------------------------------------------- |
+| Offline-first apps                         | Isar + Drift (local caching)                   |
+| Real-time sync                             | SurrealDB + gRPC                               |
+| IoT integration                            | MQTT + InfluxDB                                |
+| Multi-tenant SaaS                          | PostgreSQL schemas for isolated data contexts  |
+| AI-ready analytics                         | ClickHouse + Timescale + Rust/Python bridge    |
+| Graph-based knowledge                      | Neo4j / SurrealDB                              |
+| FFI interoperability                       | Rust ↔ Dart via flutter_rust_bridge            |
+| Raw file storage / backups / ML data       | MinIO / S3-compatible storage                  |
+
+---
+
+## D) High-Level System Design Considerations
+---
+1. High Throughput: Handles millions of messages/sec for national IoT scale and real-time dashboards.
+2. Persistence: Event logs stored for auditing and replay.
+3. Decoupling: Microservices operate independently for reliability and maintainability.
+4. Stream Processing: Kafka Streams or Flink for in-stream computations.
+5. Fault Tolerance: Automatic replication across nodes ensures high availability.
+6. Integration: Rust, Python, Dart interoperate via REST/gRPC for multi-language support.
+---
+
+
+## D) Multi-Domain & Deployment Considerations
+---
+1. Multi-sectoral Separation: Each ministry/sector (Agriculture, Energy, Health) has dedicated microservices and data domains.
+2. Offline + Online Sync: Flutter clients cache data locally and sync when connectivity returns.
+3. Cross-Language Binding: Rust backend microservices share data models with Dart frontend via flutter_rust_bridge.
+4. Hybrid Cloud-Edge Deployment: Works offline in rural IoT nodes, syncs to cloud data centers.
+5. Real-time Data: WebSocket / MQTT telemetry for sensors, dashboards, and alerts.
+6. Long-term Scalability: Supports both embedded local storage and distributed cloud databases.
+---
+
+## Note ) This architecture ensures:
+
+---
+a) Resilience: Fault-tolerant, decoupled microservices
+b) Scalability: From edge devices to national-scale deployments
+c) Interoperability: Multi-language (Rust/Dart/Python) support
+d) Real-time analytics: AI-ready pipelines and live dashboards
+e) Offline-first: Supports connectivity-challenged regions
+
+---
+
 
 ## 5. Directory Layout
 
 ```
-        📦 stanforis_rwanda/
-        │
-        ├── ⚙️ .dart_tool/                # Flutter/Dart internal tool cache
-        ├── 🧩 .idea/                     # JetBrains IDE project configuration
-        ├── 🗂️ .gitignore                 # Git version control exclusions
-        ├── 🧾 .metadata                  # Flutter project metadata
-        ├── 🧭 analysis_options.yaml      # Linter and code analysis configuration
-        │
-        ├── 🤖 android/                   # Native Android build files and platform code
-        │
-            📦 backend/
-            │
-            ├── 📁 api/
-            │   │
-            │   ├── 🔐 auth/                                     Digital Identification Used across the System Previlliges
-            │   │   ├── 🪪 digital_identification/
-            │   │
-            │   ├──  🧠 shared_global_services_models/            Grobal System configurations and Models
-            │   │   ├── 📊 shared_analytics_intelligence/
-            │   │   ├── 🔑 shared_auth_identit/
-            │   │   ├── ⚙️ shared_configurations/
-            │   │   ├── 🗄️ shared_db/
-            │   │   ├── 📣 shared_notifications_messaging/
-            │   │   ├── 🗃️ shared_registry_masterdata/
-            │   │   └── 📘 README.md
-            │   │
-            │   └── 🧱 core/
-            │       │
-            │       ├── 🌾 agriculture_food_security/              API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   │   └── 🌱 agriculture_food_security.env
-            │       │   ├── 🗄️ db/
-            │       │   │   └── 📜 schema.sql
-            │       │   ├── 🔬 microservices/
-            │       │   │   ├── 🏭 agri_business_processing/
-            │       │   │   ├── 🌱 agri_crop_production/
-            │       │   │   ├── 🚜 agri_livestock/
-            │       │   │   └── 🍽️ agri_food_distributio/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       │
-            │       ├── 🏢 companies/                                API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 💳 finance_banking/                          API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🏫 education_research_innovation/            API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🌍 forestry_energy_water_environment/         API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🗺️ geospatial_landrules/                      API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🏛️ government/                                API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🏥 hospitals/                                  API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🏗️ housing_infrastructure_urban/                API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🏭 industry_manufacturing_mining/               API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🤝 international_cooperation/                   API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 📡 internet_of_things/                          API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 📰 media_information/                           API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🧩 ngos/                                         API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🏠 residential/                                   API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 💠 rwandan_digitalMarket/                         API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🔬 scientific/                                     API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🛡️ security_defense_justice/                       API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 🧍 social_protection_communit/                      API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 💰 stanforis_currency/                              API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       ├── 📞 telecommunications_digital/                      API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │       └── 🎭 tourism_culture_entertainment/                   API Services Channel
-            │       │   ├── ⚙️ config/
-            │       │   ├── 🗄️ db/
-            │       │   ├── 🔬 microservices/
-            │       │   ├── ⚙️ workers/
-            │       │   └── 📘 README.md
-            │
-            └── 🗃️ (backend root)
-            
-        ├── 🏗️ build/                     # Flutter build output directory
-        │
-        ├── 💻 lib/                       # Application source code (Flutter Frontend)
-        │   ├── 🧠 core/                  # Core logic (models, utils, API clients)
-        │   ├── 🧱 modules/               # Sector-based UI modules
-        │   ├── 🖥️ screens/               # Screen layouts and navigation
-        │   ├── 🧩 widgets/               # Shared Flutter widgets/components
-        │   └── 🚀 main.dart              # App entry point
-        │
-        ├── 🧩 pubspec.yaml               # Flutter dependencies and project metadata
-        ├── 📦 pubspec.lock               # Dependency version lock file
-        │
-        ├── 🧪 test/                      # Unit and integration tests
-        │
-        ├── 🌐 web/                       # Web build target (for PWA or web deployment)
-        │
-        ├── 🧱 stanforis_rwanda.iml       # IntelliJ/Android Studio project index
-        │
-        └── 📘 README.md                  # # This File (architecture, setup, mission)
+    📦 stanforis_rwanda/
+    │
+    ├── ⚙️ .dart_tool/                # Flutter/Dart internal tool cache
+    ├── 🧩 .idea/                     # JetBrains IDE project configuration
+    ├── 🗂️ .gitignore                 # Git version control exclusions
+    ├── 🧾 .metadata                  # Flutter project metadata
+    ├── 🧭 analysis_options.yaml      # Linter and code analysis configuration
+    │
+    ├── 🤖 android/                   # Native Android build files and platform code
+    │
+    ├── 📦 backend/
+    │    │
+    │    ├── 📁 api/
+    │    │   │
+    │    │   ├── 🔐 auth/        │        │                     Digital Identification Used across the System Previlliges
+    │    │   │   ├── 🪪 digital_identification/
+    │    │   │
+    │    │   ├──  🧠 shared_global_services_models/            Grobal System configurations and Models
+    │    │   │   ├── 📊 shared_analytics_intelligence/
+    │    │   │   ├── 🔑 shared_auth_identit/
+    │    │   │   ├── ⚙️ shared_configurations/
+    │    │   │   ├── 🗄️ shared_db/
+    │    │   │   ├── 📣 shared_notifications_messaging/
+    │    │   │   ├── 🗃️ shared_registry_masterdata/
+    │    │   │   └── 📘 README.md
+    │    │   │
+    │    │   └── 🧱 core/
+    │    │       │
+    │    │       ├── 🌾 agriculture_food_security/              API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   │   └── 🌱 agriculture_food_security.env
+    │    │       │   ├── 🗄️ db/
+    │    │       │   │   └── 📜 schema.sql
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   │   ├── 🏭 agri_business_processing/
+    │    │       │   │   ├── 🌱 agri_crop_production/
+    │    │       │   │   ├── 🚜 agri_livestock/
+    │    │       │   │   └── 🍽️ agri_food_distributio/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       │
+    │    │       ├── 🏢 companies/                                API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 💳 finance_banking/                          API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🏫 education_research_innovation/            API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🌍 forestry_energy_water_environment/         API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🗺️ geospatial_landrules/                      API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🏛️ government/                                API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🏥 hospitals/                                  API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🏗️ housing_infrastructure_urban/                API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🏭 industry_manufacturing_mining/               API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🤝 international_cooperation/                   API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 📡 internet_of_things/                          API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 📰 media_information/                           API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🧩 ngos/                                         API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🏠 residential/                                   API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 💠 rwandan_digitalMarket/                         API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🔬 scientific/                                     API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🛡️ security_defense_justice/                       API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 🧍 social_protection_communit/                      API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 💰 stanforis_currency/                              API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       ├── 📞 telecommunications_digital/                      API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │       └── 🎭 tourism_culture_entertainment/                   API Services Channel
+    │    │       │   ├── ⚙️ config/
+    │    │       │   ├── 🗄️ db/
+    │    │       │   ├── 🔬 microservices/
+    │    │       │   ├── ⚙️ workers/
+    │    │       │   └── 📘 README.md
+    │    │
+    │    └── 🗃️ (backend root)
+    │    
+    ├── 🏗️ build/                     # Flutter build output directory
+    │
+    ├── 💻 lib/                       # Application source code (Flutter Frontend)
+    │   ├── 🧠 core/                  # Core logic (models, utils, API clients)
+    │   ├── 🧱 modules/               # Sector-based UI modules
+    │   ├── 🖥️ screens/               # Screen layouts and navigation
+    │   ├── 🧩 widgets/               # Shared Flutter widgets/components
+    │   └── 🚀 main.dart              # App entry point
+    │
+    ├── 🧩 pubspec.yaml               # Flutter dependencies and project metadata
+    ├── 📦 pubspec.lock               # Dependency version lock file
+    │
+    ├── 🧪 test/                      # Unit and integration tests
+    │
+    ├── 🌐 web/                       # Web build target (for PWA or web deployment)
+    │
+    ├── 🧱 stanforis_rwanda.iml       # IntelliJ/Android Studio project index
+    │
+    └── 📘 README.md                  # # This File (architecture, setup, mission)
 
 ```
-
 **Backend tree** is organized by sector: `backend/api/sector/microservices/{service}/{operation}`.
 Each sector contains config, migrations, models, and a README explaining domain contracts.
 
----
 
+---
 ## 6. Databases & Data Layers
 
 This system embraces a polyglot persistence model: choose the right tool for each job.
@@ -339,7 +414,6 @@ This system embraces a polyglot persistence model: choose the right tool for eac
 * **MinIO (S3)**: object storage for raw files and ML datasets
 
 **Stream ingestion:** Kafka connectors (Kafka Connect) to move topics into ClickHouse/TimescaleDB/S3.
-
 ---
 
 ## 7. Eventing, Messaging & Streaming
@@ -476,40 +550,12 @@ Security is non-negotiable. This section lists key controls and patterns.
 6. Deploy to staging via Helm / terraform
 7. Run smoke tests & canary rollout to production
 
-### 12.3 Docker-Compose (local dev)
-
-```yaml
-version: '3.8'
-services:
-  zookeeper:
-    image: wurstmeister/zookeeper
-    ports: ['2181:2181']
-  kafka:
-    image: confluentinc/cp-kafka
-    ports: ['9092:9092']
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: stanforis
-      POSTGRES_PASSWORD: change-me
-    ports: ['5432:5432']
-  minio:
-    image: minio/minio
-    command: server /data
-    environment:
-      MINIO_ROOT_USER: minio
-      MINIO_ROOT_PASSWORD: minio123
-    ports: ['9000:9000']
-```
 
 ### 12.4 Kubernetes (production)
 
 * Use namespace-per-environment (`stanforis-dev`, `stanforis-staging`, `stanforis-prod`)
 * Use Helm charts per microservice
-* Use a service mesh (Istio/Linkerd) if you need advanced routing and mTLS
+* Use a service mesh (Istio) because we need advanced routing and mTLS
 * Use Horizontal Pod Autoscalers for microservices with CPU/memory and custom metrics
 
 ---
@@ -521,7 +567,7 @@ services:
 * Dart & Flutter (stable channel)
 * Rust toolchain (stable, plus toolchains for cross-compiling where needed)
 * Docker & Docker Compose
-* Node.js (for any frontend JS tooling)
+* Node.js (for any frontend JS tooling) // but we are focussed more on mobile first version
 * PostgreSQL client tools
 
 ### 13.2 Recommended VSCode / IntelliJ Setup
@@ -691,48 +737,19 @@ JWT_ISSUER=https://auth.stanforis.rw
 ### 22.4 Sample Kafka Topic Naming Convention
 
 ```
-rwa.<region>.<sector>.<resource>.<action>
-# e.g. rwa.kigali.energy.grid.voltage.update
+WILL  BE PUT HERE
 ```
 
 ### 22.5 Example Rust producer snippet
 
-```rust
-use rdkafka::producer::{BaseProducer, BaseRecord};
-
-fn publish_event(topic: &str, payload: &str) {
-    let producer: BaseProducer = rdkafka::config::ClientConfig::new()
-        .set("bootstrap.servers", "localhost:9092")
-        .create()
-        .expect("Producer creation failed");
-
-    producer.send(
-        BaseRecord::to(topic)
-            .key("stanforis")
-            .payload(payload)
-    ).unwrap();
-}
+```
+WILL BE PUT HERE
 ```
 
 ### 22.6 Minimal gRPC service proto (example)
 
-```proto
-syntax = "proto3";
-package stanforis.gateway;
-
-service Registry {
-  rpc GetService (ServiceRequest) returns (ServiceResponse);
-}
-
-message ServiceRequest {
-  string id = 1;
-}
-
-message ServiceResponse {
-  string id = 1;
-  string endpoint = 2;
-  string protocol = 3;
-}
+```
+WILL BE PUT HERE
 ```
 
 ### 22.7 Glossary
