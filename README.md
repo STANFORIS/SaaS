@@ -749,13 +749,3 @@ message ServiceResponse {
 
 This project is intentionally ambitious. Treat the repository and its artifacts as a living reference architecture. Start small: shipping a minimal sector (e.g., energy or agriculture) end-to-end (device → edge → kafka → microservice → postgres → dashboard) will prove the pattern and allow iterative expansion.
 
-
-  `.. ..  `... `......      `.       `...     `..`........    `....     `.......    `..  `.. ..  
-`..    `..     `..         `. ..     `. `..   `..`..        `..    `..  `..    `..  `..`..    `..
- `..           `..        `.  `..    `.. `..  `..`..      `..        `..`..    `..  `.. `..      
-   `..         `..       `..   `..   `..  `.. `..`......  `..        `..`. `..      `..   `..    
-      `..      `..      `...... `..  `..   `. `..`..      `..        `..`..  `..    `..      `.. 
-`..    `..     `..     `..       `.. `..    `. ..`..        `..     `.. `..    `..  `..`..    `..
-  `.. ..       `..    `..         `..`..      `..`..          `....     `..      `..`..  `.. ..  
-                                                                                                 
----
