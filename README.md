@@ -1,3 +1,5 @@
+
+                                                123 124 101 116 106 117 122 111 123  Octar
 ```
                                         ███████╗████████╗ █████╗ ███╗   ██╗███████╗ ██████╗ ██████╗ 
                                         ██╔════╝╚══██╔══╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔═══██╗
@@ -22,6 +24,7 @@
 >
 > **Purpose:** Life & Data Science Transformation Protocol
 ---
+
 ## Table of Contents
 
 1. Overview
@@ -55,7 +58,7 @@ This repository hosts the Stanforis Rwanda project — a national-scale platform
 
 The platform is designed as a multi-tenant SaaS ecosystem with:
 
-* Sectorized microservices (agriculture, health, energy, transport, finance, education, etc.)
+* Sectorized microservices (National Digital Twin.)
 * Flutter frontends (mobile, web, PWA) as both clients and local micro-hubs
 * Rust microservices for secure, high-performance business logic
 * Event-driven communication (MQTT for device layer, Apache Kafka as system bus)
@@ -110,36 +113,199 @@ Refer to the Appendix for visual diagrams and ASCII/dot graphs.
 ## 5. Directory Layout
 
 ```
-stanforis_rwanda/
-├── .dart_tool/
-├── .idea/
-├── .gitignore
-├── README.md                # (this file)
-├── analysis_options.yaml
-├── android/
-├── backend/
-│   ├── api/
-│   │   ├── core/
-│   │   ├── auth/
-│   │   └── shared_global_services_models/
-│   └── microservices/       # rust/node/python microservices by sector
-├── build/
-├── lib/
-│   ├── core/
-│   │   ├── api_clients/
-│   │   ├── models/
-│   │   └── utils/
-│   ├── modules/
-│   ├── screens/
-│   ├── widgets/
-│   └── main.dart
-├── pubspec.yaml
-├── pubspec.lock
-├── test/
-└── web/
+        📦 stanforis_rwanda/
+        │
+        ├── ⚙️ .dart_tool/                # Flutter/Dart internal tool cache
+        ├── 🧩 .idea/                     # JetBrains IDE project configuration
+        ├── 🗂️ .gitignore                 # Git version control exclusions
+        ├── 🧾 .metadata                  # Flutter project metadata
+        ├── 🧭 analysis_options.yaml      # Linter and code analysis configuration
+        │
+        ├── 🤖 android/                   # Native Android build files and platform code
+        │
+            📦 backend/
+            │
+            ├── 📁 api/
+            │   │
+            │   ├── 🔐 auth/                                     Digital Identification Used across the System Previlliges
+            │   │   ├── 🪪 digital_identification/
+            │   │
+            │   ├──  🧠 shared_global_services_models/            Grobal System configurations and Models
+            │   │   ├── 📊 shared_analytics_intelligence/
+            │   │   ├── 🔑 shared_auth_identit/
+            │   │   ├── ⚙️ shared_configurations/
+            │   │   ├── 🗄️ shared_db/
+            │   │   ├── 📣 shared_notifications_messaging/
+            │   │   ├── 🗃️ shared_registry_masterdata/
+            │   │   └── 📘 README.md
+            │   │
+            │   └── 🧱 core/
+            │       │
+            │       ├── 🌾 agriculture_food_security/              API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   │   └── 🌱 agriculture_food_security.env
+            │       │   ├── 🗄️ db/
+            │       │   │   └── 📜 schema.sql
+            │       │   ├── 🔬 microservices/
+            │       │   │   ├── 🏭 agri_business_processing/
+            │       │   │   ├── 🌱 agri_crop_production/
+            │       │   │   ├── 🚜 agri_livestock/
+            │       │   │   └── 🍽️ agri_food_distributio/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       │
+            │       ├── 🏢 companies/                                API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 💳 finance_banking/                          API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🏫 education_research_innovation/            API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🌍 forestry_energy_water_environment/         API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🗺️ geospatial_landrules/                      API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🏛️ government/                                API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🏥 hospitals/                                  API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🏗️ housing_infrastructure_urban/                API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🏭 industry_manufacturing_mining/               API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🤝 international_cooperation/                   API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 📡 internet_of_things/                          API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 📰 media_information/                           API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🧩 ngos/                                         API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🏠 residential/                                   API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 💠 rwandan_digitalMarket/                         API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🔬 scientific/                                     API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🛡️ security_defense_justice/                       API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 🧍 social_protection_communit/                      API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 💰 stanforis_currency/                              API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       ├── 📞 telecommunications_digital/                      API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │       └── 🎭 tourism_culture_entertainment/                   API Services Channel
+            │       │   ├── ⚙️ config/
+            │       │   ├── 🗄️ db/
+            │       │   ├── 🔬 microservices/
+            │       │   ├── ⚙️ workers/
+            │       │   └── 📘 README.md
+            │
+            └── 🗃️ (backend root)
+            
+        ├── 🏗️ build/                     # Flutter build output directory
+        │
+        ├── 💻 lib/                       # Application source code (Flutter Frontend)
+        │   ├── 🧠 core/                  # Core logic (models, utils, API clients)
+        │   ├── 🧱 modules/               # Sector-based UI modules
+        │   ├── 🖥️ screens/               # Screen layouts and navigation
+        │   ├── 🧩 widgets/               # Shared Flutter widgets/components
+        │   └── 🚀 main.dart              # App entry point
+        │
+        ├── 🧩 pubspec.yaml               # Flutter dependencies and project metadata
+        ├── 📦 pubspec.lock               # Dependency version lock file
+        │
+        ├── 🧪 test/                      # Unit and integration tests
+        │
+        ├── 🌐 web/                       # Web build target (for PWA or web deployment)
+        │
+        ├── 🧱 stanforis_rwanda.iml       # IntelliJ/Android Studio project index
+        │
+        └── 📘 README.md                  # # This File (architecture, setup, mission)
+
 ```
 
-**Backend tree** is organized by sector: `backend/microservices/{sector}/{service}`.
+**Backend tree** is organized by sector: `backend/api/sector/microservices/{service}/{operation}`.
 Each sector contains config, migrations, models, and a README explaining domain contracts.
 
 ---
@@ -152,7 +318,7 @@ This system embraces a polyglot persistence model: choose the right tool for eac
 
 * **Isar**: high-performance embedded DB written in Rust with a Dart client — recommended for offline-first Flutter apps.
 * **SQLite + Drift**: reliable SQL for structured local storage.
-* **Sembast / Hive**: simpler key-value alternatives for small caches.
+* **Hive**: simpler key-value alternatives for small caches.
 
 **Example:** Use Isar for per-user caches, local indexes, and short-term telemetry buffering.
 
@@ -211,7 +377,7 @@ The design follows an X-Road-like interoperability model:
 * **GraphQL** optional for UI-driven queries
 * **REST** for simple integrations and external partners
 
-**Service discovery:** Use a proven service mesh (e.g., Istio/Linkerd) or lightweight discovery via Consul.
+**Service discovery:** Use a proven service mesh (Istio) .
 
 ---
 
@@ -287,7 +453,7 @@ Security is non-negotiable. This section lists key controls and patterns.
 
 * Define models in protobuf or a canonical schema language
 * Generate Dart models (via `protoc`) and Rust structs (via `prost`) to ensure parity
-* Version your schemas and provide migration tools for DB changes
+* Version our schemas and provide migration tools for DB changes
 
 ---
 
@@ -584,3 +750,12 @@ message ServiceResponse {
 This project is intentionally ambitious. Treat the repository and its artifacts as a living reference architecture. Start small: shipping a minimal sector (e.g., energy or agriculture) end-to-end (device → edge → kafka → microservice → postgres → dashboard) will prove the pattern and allow iterative expansion.
 
 
+  `.. ..  `... `......      `.       `...     `..`........    `....     `.......    `..  `.. ..  
+`..    `..     `..         `. ..     `. `..   `..`..        `..    `..  `..    `..  `..`..    `..
+ `..           `..        `.  `..    `.. `..  `..`..      `..        `..`..    `..  `.. `..      
+   `..         `..       `..   `..   `..  `.. `..`......  `..        `..`. `..      `..   `..    
+      `..      `..      `...... `..  `..   `. `..`..      `..        `..`..  `..    `..      `.. 
+`..    `..     `..     `..       `.. `..    `. ..`..        `..     `.. `..    `..  `..`..    `..
+  `.. ..       `..    `..         `..`..      `..`..          `....     `..      `..`..  `.. ..  
+                                                                                                 
+---
