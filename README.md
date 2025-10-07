@@ -1,384 +1,121 @@
-
-                                                123 124 101 116 106 117 122 111 123  Octar
-```
-                                        ███████╗████████╗ █████╗ ███╗   ██╗███████╗ ██████╗ ██████╗ 
-                                        ██╔════╝╚══██╔══╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔═══██╗
-                                        ███████╗   ██║   ███████║██╔██╗ ██║█████╗  ██║     ██║   ██║
-                                        ╚════██║   ██║   ██╔══██║██║╚██╗██║██╔══╝  ██║     ██║   ██║
-                                        ███████║   ██║   ██║  ██║██║ ╚████║███████╗╚██████╗╚██████╔╝
-                                        ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═════╝  
-                            “Stanforis Federal, Intelligent, Universal Data Interoperability Continuum Unity”
-                      ─────────────────────────────────────────────────────────────────────────────────────────────────
-                    
-```
-
-> **Project:** Stanforis Rwanda Mult_Continuum Systems Interoperability
->
-> **Author:** IRABARUTA Aminadabu
->
-> **Company:** STANFORD RESEARCH & SCIENTIFIC AUTHORITY
->
-> **Version:** 1.0.0
->
-> **Purpose:** Life & Data Science Transformation Protocol
----
-
-## Table of Contents
-
-1. Overview
-2. Vision & Goals
-3. Core Principles
-4. High-Level Architecture
-5. Directory Layout
-6. Databases & Data Layers
-7. Eventing, Messaging & Streaming
-8. API & Interoperability (X-Road Inspired)
-9. Security, Privacy & Data Sovereignty
-10. Offline-first, Sync & Conflict Resolution
-11. Rust ↔ Dart Integration
-12. CI/CD, Deployment & Operational Guide
-13. Development Environment
-14. Coding Standards & Conventions
-15. Testing Strategy
-16. Monitoring, Logging & Observability
-17. Backup & Disaster Recovery
-18. Data Respect, Ethics & Governance
-19. Contribution Guide
-20. License & Acknowledgements
-21. Roadmap
-22. Appendix (Diagrams, Sample Configs, Dot Graphs)
-
----
-
-## 1. Overview
-
-This repository hosts the Stanforis Rwanda project — a national-scale platform that models Rwanda as a living digital twin.
-
-The platform is designed as a multi-tenant SaaS ecosystem with:
-
-* Sectorized microservices (National Digital Twin.)
-* Flutter frontends (mobile, web, PWA) as both clients and local micro-hubs
-* Rust microservices for secure, high-performance business logic
-* Event-driven communication (MQTT for device layer, Apache Kafka as system bus)
-* Analytics and AI/ML pipelines for predictive and descriptive intelligence
-* GIS/3D visualization, real-time telemetry, and strong privacy controls
-
-> **Important:** This README is a living document. Treat it as part of the system’s artifact set and keep it updated as the architecture and deployment details evolve.
-
----
-
-## 2. Vision & Goals
-
-**Vision:** Provide a sovereign, resilient, and interoperable national digital mirror that fosters better governance, smarter infrastructure planning, and citizen services.
-
-**Primary goals:**
-
-* Enable cross-sector data sharing while preserving data sovereignty
-* Deliver offline-capable citizen applications for rural coverage
-* Provide a secure eventing backbone for real-time operations
-* Create a scalable analytics fabric for national decision-making
-* Ensure extensibility so new sectors and services can be added without disrupting existing modules
-
----
-
-## 3. Core Principles
-
-* **Modularity:** Each sector is a self-contained module with its own data model and APIs.
-* **Interoperability:** Schema-first approach using protobuf/OpenAPI/GraphQL where appropriate.
-* **Security-by-design:** Sensitive logic implemented in compiled languages (Rust) with strict access controls.
-* **Offline-first:** Local persistence + conflict-resolution sync strategies.
-* **Privacy & Data Respect:** Data minimization, purpose binding, and auditable trails.
-* **Sovereignty:** Deployment options prioritizing hosting inside Rwanda.
-
----
-
-## 4. High-Level Architecture
-
-The system follows a layered architecture:
-
-1. **Device / Edge** — IoT sensors, cameras, meters. Communicate via MQTT to local brokers (HiveMQ).
-2. **Edge Compute** — Local Rust microservices that preprocess telemetry and publish to Kafka.
-3. **Event Bus** — Apache Kafka as the central, durable event backbone.
-4. **Sector Microservices** — Rust services handling domain logic and persistence (Postgres/SurrealDB/MongoDB).
-5. **Analytics / AI** — Stream processors, ClickHouse/TimescaleDB, Python/Rust ML modules.
-6. **API Gateway** — gRPC / WebSocket / REST gateway that exposes aggregated services to Flutter clients.
-7. **Frontend / Dashboards** — Flutter mobile/web apps with local DBs (Isar/SQLite/Drift) and live-sync.
----
-
-## A) System Layers and Technologies
----
-| Layer               | Technology                     | Purpose / Role                                                                 |
-|--------------------|--------------------------------|-------------------------------------------------------------------------------|
-| IoT Device Layer    | MQTT (HiveMQ, EMQX)           | Direct communication with IoT devices. Handles telemetry and device events.   |
-| Event Bus Layer     | Apache Kafka                   | National-scale event backbone for high-throughput messaging and stream processing. |
-| Microservice Layer  | Rust microservices             | Domain-specific processing and persistence. Ensures decoupling and fault tolerance. |
-| Data Lake Layer     | ClickHouse / TimescaleDB / PostgreSQL | Data storage, analytics, and transactional support. Supports AI pipelines. |
-| Frontend Layer      | Flutter                        | Visualization, control interfaces, citizen services, and offline-first capabilities. |
-
----
-
-## B) Data Flow & Integration
----
- B.1 Storage & Analytics Flow
-
-1. ClickHouse → Analytics & AI-ready aggregation
-2. TimescaleDB → IoT time-series data storage
-3. PostgreSQL → Transactional and multi-tenant data
-4. AI Engine → Rust/Python bridge for AI/ML computation
+# Stanforis Rwanda - National Life Digital Mirror Project
+<!-- This system is intended to be represented to the National of Rwanda once complete -->
 
 
- B.2 Communication & Interfacing
-
-1. gRPC → Microservice-to-microservice and backend-to-frontend RPC
-2. WebSocket → Real-time updates to dashboards and mobile clients
-3. Kafka Bus → High-throughput event streaming
-4. Flutter → Frontend visualization & control
-5. NATS → Lightweight messaging for microservices
-6. SurrealDB live queries → Real-time database subscriptions
-7. Firebase → Last-mile app-level updates
----
-
-## C) Core System Capabilities
-
----
-|              Capability                    |      Supported By / Notes                      |
-|--------------------------------------------|----------------------------------------------- |
-| Offline-first apps                         | Isar + Drift (local caching)                   |
-| Real-time sync                             | SurrealDB + gRPC                               |
-| IoT integration                            | MQTT + InfluxDB                                |
-| Multi-tenant SaaS                          | PostgreSQL schemas for isolated data contexts  |
-| AI-ready analytics                         | ClickHouse + Timescale + Rust/Python bridge    |
-| Graph-based knowledge                      | Neo4j / SurrealDB                              |
-| FFI interoperability                       | Rust ↔ Dart via flutter_rust_bridge            |
-| Raw file storage / backups / ML data       | MinIO / S3-compatible storage                  |
-
----
-
-## D) High-Level System Design Considerations
----
-1. High Throughput: Handles millions of messages/sec for national IoT scale and real-time dashboards.
-2. Persistence: Event logs stored for auditing and replay.
-3. Decoupling: Microservices operate independently for reliability and maintainability.
-4. Stream Processing: Kafka Streams or Flink for in-stream computations.
-5. Fault Tolerance: Automatic replication across nodes ensures high availability.
-6. Integration: Rust, Python, Dart interoperate via REST/gRPC for multi-language support.
----
+**Author:** IRABARUTA Aminadabu
+**Company:** Stanforis Research & Scientific Authority
+**Product:** Stanforis Rwanda - Multi-Tenant SaaS Platform
+**Version:** 1.0.0
+**Purpose:** Build a living, national-scale digital twin of Rwanda, covering multiple sectors, with integrated IoT, microservices, dashboards, and citizen/enterprise services.
 
 
-## D) Multi-Domain & Deployment Considerations
----
-1. Multi-sectoral Separation: Each ministry/sector (Agriculture, Energy, Health) has dedicated microservices and data domains.
-2. Offline + Online Sync: Flutter clients cache data locally and sync when connectivity returns.
-3. Cross-Language Binding: Rust backend microservices share data models with Dart frontend via flutter_rust_bridge.
-4. Hybrid Cloud-Edge Deployment: Works offline in rural IoT nodes, syncs to cloud data centers.
-5. Real-time Data: WebSocket / MQTT telemetry for sensors, dashboards, and alerts.
-6. Long-term Scalability: Supports both embedded local storage and distributed cloud databases.
----
-
-## Note ) This architecture ensures:
-
----
-a) Resilience: Fault-tolerant, decoupled microservices
-b) Scalability: From edge devices to national-scale deployments
-c) Interoperability: Multi-language (Rust/Dart/Python) support
-d) Real-time analytics: AI-ready pipelines and live dashboards
-e) Offline-first: Supports connectivity-challenged regions
-
----
 
 
-## 5. Directory Layout
+Key Concepts of its UNIQUENESS
+<!-- Main Purposes Open here -->
+## Self-contained runtime: Frontend + backend compiled together
+Nationwide interoperability via REST/gRPC gateways.
+## Microservices: Each sector operates independently but can sync via APIs/WebSockets
+## Security: Backend logic compiled to native code, not exposed in source
+## Cross-platform foccussed more on: Mobile, Web, IoT-ready
+## AI / ML modules integration
+## IoT device communication via MQTT/WebSocket
+## Really Real-time dashboards
 
-```
-    📦 stanforis_rwanda/
-    │
-    ├── ⚙️ .dart_tool/                # Flutter/Dart internal tool cache
-    ├── 🧩 .idea/                     # JetBrains IDE project configuration
-    ├── 🗂️ .gitignore                 # Git version control exclusions
-    ├── 🧾 .metadata                  # Flutter project metadata
-    ├── 🧭 analysis_options.yaml      # Linter and code analysis configuration
-    │
-    ├── 🤖 android/                   # Native Android build files and platform code
-    │
-    ├── 📦 backend/
-    │    │
-    │    ├── 📁 api/
-    │    │   │
-    │    │   ├── 🔐 auth/        │        │                     Digital Identification Used across the System Previlliges
-    │    │   │   ├── 🪪 digital_identification/
-    │    │   │
-    │    │   ├──  🧠 shared_global_services_models/            Grobal System configurations and Models
-    │    │   │   ├── 📊 shared_analytics_intelligence/
-    │    │   │   ├── 🔑 shared_auth_identit/
-    │    │   │   ├── ⚙️ shared_configurations/
-    │    │   │   ├── 🗄️ shared_db/
-    │    │   │   ├── 📣 shared_notifications_messaging/
-    │    │   │   ├── 🗃️ shared_registry_masterdata/
-    │    │   │   └── 📘 README.md
-    │    │   │
-    │    │   └── 🧱 core/
-    │    │       │
-    │    │       ├── 🌾 agriculture_food_security/              API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   │   └── 🌱 agriculture_food_security.env
-    │    │       │   ├── 🗄️ db/
-    │    │       │   │   └── 
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   │   ├── 🏭 agri_business_processing/
-    │    │       │   │   ├── 🌱 agri_crop_production/
-    │    │       │   │   ├── 🚜 agri_livestock/
-    │    │       │   │   └── 🍽️ agri_food_distributio/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       │
-    │    │       ├── 🏢 companies/                                API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 💳 finance_banking/                          API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🏫 education_research_innovation/            API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🌍 forestry_energy_water_environment/         API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🗺️ geospatial_landrules/                      API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🏛️ government/                                API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🏥 hospitals/                                  API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🏗️ housing_infrastructure_urban/                API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🏭 industry_manufacturing_mining/               API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🤝 international_cooperation/                   API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 📡 internet_of_things/                          API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 📰 media_information/                           API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🧩 ngos/                                         API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🏠 residential/                                   API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 💠 rwandan_digitalMarket/                         API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🔬 scientific/                                     API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🛡️ security_defense_justice/                       API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 🧍 social_protection_communit/                      API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 💰 stanforis_currency/                              API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       ├── 📞 telecommunications_digital/                      API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │       └── 🎭 tourism_culture_entertainment/                   API Services Channel
-    │    │       │   ├── ⚙️ config/
-    │    │       │   ├── 🗄️ db/
-    │    │       │   ├── 🔬 microservices/
-    │    │       │   ├── ⚙️ workers/
-    │    │       │   └── 📘 README.md
-    │    │
-    │    └── 🗃️ (backend root)
-    │    
-    ├── 🏗️ build/                     # Flutter build output directory
-    │
-    ├── 💻 lib/                       # Application source code (Flutter Frontend)
-    │   ├── 🧠 core/                  # Core logic (models, utils, API clients)
-    │   ├── 🧱 modules/               # Sector-based UI modules
-    │   ├── 🖥️ screens/               # Screen layouts and navigation
-    │   ├── 🧩 widgets/               # Shared Flutter widgets/components
-    │   └── 🚀 main.dart              # App entry point
-    │
-    ├── 🧩 pubspec.yaml               # Flutter dependencies and project metadata
-    ├── 📦 pubspec.lock               # Dependency version lock file
-    │
-    ├── 🧪 test/                      # Unit and integration tests
-    │
-    ├── 🌐 web/                       # Web build target (for PWA or web deployment)
-    │
-    ├── 🧱 stanforis_rwanda.iml       # IntelliJ/Android Studio project index
-    │
-    └── 📘 README.md                  # # This File (architecture, setup, mission)
+* **3D / GIS Integration:** For urban planning, residential migration, and infrastructure visualization
+* **IoT Telemetry:** More Sectors such as Energy, transport, agriculture etc, security sensors feed into APIs
+* **Event Bus:** Hive MQTT broker + Firebase real-time push for cross-sector events
+* **Analytics Layer:** Predictive micro modeling AIs
+* **Notifications / IoT:** WebSocket / MQTT for real-time data
+
+- Local DB (SQLite / Hive / Isar)
+- Offline & Real-time Sync
+- Native APIs (Sensors, GPS, Camera, etc)
+
+a) Each micro-frontend (sector) have its own routing internally
+b) Within each sector, dashboards and admin pages are integrated and self-managed.
+c) Centralized routing for microservices backend.
+d) Each sector microservice exposes APIs; the gateway directs requests to the correct service.
+e) Supports authentication, logging, and throttling at a central point.
+f) Each micro-frontend deployed independently
+g) Shared components (UI, auth, notifications) published as a shared library
+
+<!-- Main Gateway -->
+
+## main.dart * → loads sector micro-frontends dynamically
+## Each sector has its own DB/microservice, integrated through the API gateway
+Embedding of Rust/Imbended languages nodes Microservices microservices through FFI
+
+<!-- 
+
+Language: Dart
+Engine: Skia + ....
+Platforms: Android,  Web.
+
+Responsibilities: 
+Dynamic UI rendering for all devices
+Local logic execution (no server dependency) 
+Offline-first data caching (Hive / Isar)
+Real-time data sync (via gRPC, WebSocket, + Databases)
+
+
+Global registry service synchronizes identities and data references.
+Flutter apps (nodes) serve as both clients and local micro-hubs.
+Offline data syncs automatically when connected.
+Blockchain-based audit trails for transparency
+Rust cryptography modules (AES, RSA, SHA3)
+A Flutter screen calls a Rust microservice (via FFI):
+Plug-in architecture for adding new national sectors
+
+Near-zero memory leaks
+Extremely fast execution
+Thread-safe, secure, and future-proof
+Seamless bindings with other languages (C, Python, Dart)
+
+ -->
+
+ Databases:
+
+
+
+<!-- 🚀 STANFORIS RWANDA — Full Flutter App Overview -->
+
+📦 stanforis_rwanda/
+│
+├── ⚙️ .dart_tool/                # Flutter/Dart internal tool cache
+├── 🧩 .idea/                     # JetBrains IDE project configuration
+├── 🗂️ .gitignore                 # Git version control exclusions
+├── 🧾 .metadata                  # Flutter project metadata
+├── 🧭 analysis_options.yaml      # Linter and code analysis configuration
+│
+├── 🤖 android/                   # Native Android build files and platform code
+│
+├── 🧠 backend/                   # Integrated backend (Node/Python/Microservices)
+│   ├── 🔐 api/
+│   │   ├── 🧱 core/
+│   │   ├── 🧩 auth/
+│   │   └── 🌍 shared_global_services_models/
+│   └── 📘 (Backend described in separate backend tree)
+│
+├── 🏗️ build/                     # Flutter build output directory
+│
+├── 💻 lib/                       # Application source code (Flutter Frontend)
+│   ├── 🧠 core/                  # Core logic (models, utils, API clients)
+│   ├── 🧱 modules/               # Sector-based UI modules
+│   ├── 🖥️ screens/               # Screen layouts and navigation
+│   ├── 🧩 widgets/               # Shared Flutter widgets/components
+│   └── 🚀 main.dart              # App entry point
+│
+├── 🧩 pubspec.yaml               # Flutter dependencies and project metadata
+├── 📦 pubspec.lock               # Dependency version lock file
+│
+├── 🧪 test/                      # Unit and integration tests
+│
+├── 🌐 web/                       # Web build target (for PWA or web deployment)
+│
+├── 🧱 stanforis_rwanda.iml       # IntelliJ/Android Studio project index
+│
+└── 📘 README.md                  # Full project documentation (architecture, setup, mission)
 
 ```
 **Backend tree** is organized by sector: `backend/api/sector/microservices/{service}/{operation}`.
