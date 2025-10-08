@@ -12,9 +12,13 @@
 ```
 
 > **Project:** Stanforis Rwanda Mult_Continuum Systems Interoperability
+> 
 > **Author:** IRABARUTA Aminadabu (Lunar)
+> 
 > **Company:** STANFORIS RESEARCH & SCIENTIFIC AUTHORITY
+> 
 > **Version:** 2.0.0
+> 
 > **Purpose:** National-Scale Interoperability Platform for Digital Twin Systems
 
 ---
