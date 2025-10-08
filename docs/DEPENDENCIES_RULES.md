@@ -1,3 +1,15 @@
+##  PUSHING OUR LOCAL UPDATES
+---
+cd C:\Users\Stanforis\Desktop\stanforis_rwanda
+git status
+git add .
+git commit -m "Rebuilt microservices directories and updated README files"
+git push origin main
+---
+
+
+
+
 # STANFORIS SaaS — DEPENDENCIES_RULES.md
 
 ## 1. Protocols Setup

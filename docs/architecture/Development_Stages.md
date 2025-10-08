@@ -70,27 +70,6 @@ Analytics	AI & Insights	Python + Rust ML
 
 Each Sector is a modular subdomain with independent microservices and dashboards.
 
-Example:
-backend/api/core/
-├── health/
-│   ├── identity/
-│   ├── ehr/
-│   ├── lab/
-│   └── hl7_fhir_adapter/
-├── finance/
-│   ├── account/
-│   ├── payments/
-│   ├── iso20022_adapter/
-│   └── audit/
-├── education/
-│   ├── student_records/
-│   ├── course_mgmt/
-│   └── analytics/
-└── agriculture/
-    ├── sensors/
-    ├── weather/
-    ├── yield_prediction/
-    └── supply_chain/
 
 
 Each submodule communicates via gRPC, publishes events to Kafka, and exposes REST endpoints via KrakenD.
