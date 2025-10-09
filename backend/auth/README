@@ -1,0 +1,483 @@
+This is your first Rust microservice, responsible for:
+
+User & organization identity
+
+Device credential registration
+
+JWT/mTLS authentication foundation for the rest of the system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+here’s the complete ready-to-save README.md for your microservice,
+including the ASCII directory tree, code placement rules, and developer documentation.
+
+# 🪪 Digital Identification Microservice
+
+**Location:**  
+`backend/api/auth/digital_identification/`
+
+This Rust-based microservice implements the **Stanforis Digital Identity Registry**, the foundational layer for secure identity management across all Stanforis Rwanda sector systems (Health, Finance, Education, Agriculture, etc.).
+
+It exposes **gRPC APIs** for identity registration and retrieval, backed by **PostgreSQL** for persistence and **KrakenD** for gateway access.
+
+---
+
+## 📂 Directory Structure (ASCII Tree)
+
+
+
+digital_identification/
+├── Cargo.toml # Rust project dependencies & metadata
+├── build.rs # Protobuf auto-compiler (tonic_build)
+├── README.md # This documentation
+│
+├── config/
+│ └── digital_identification.env # Local environment variables (DB URL, etc.)
+│
+├── db/
+│ └── schema.sql # PostgreSQL schema (identities table)
+│
+├── proto/
+│ └── identity.proto # gRPC proto contract (service + messages)
+│
+├── src/
+│ ├── main.rs # Entry point — starts the gRPC server
+│ ├── lib.rs # Service bootstrap & module declarations
+│ │
+│ ├── db/
+│ │ ├── mod.rs # Exports db/postgres.rs
+│ │ └── postgres.rs # Async Postgres connection pool
+│ │
+│ ├── grpc/
+│ │ ├── mod.rs # Exports gRPC modules
+│ │ ├── identity_service.rs # Implements the gRPC DigitalIdentity API
+│ │ └── generated/ # Auto-generated gRPC Rust files (from .proto)
+│ │
+│ └── models/
+│ └── identity.rs # Data model for Identity records
+
+
+---
+
+## ⚙️ Build Script — `build.rs`
+
+**Purpose:** Compiles `.proto` files into Rust gRPC server and client code on each build.
+
+```rust
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tonic_build::configure()
+        .build_client(true)
+        .build_server(true)
+        .out_dir("src/grpc/generated")
+        .compile(
+            &["proto/identity.proto"],
+            &["proto"],
+        )?;
+    println!("cargo:rerun-if-changed=proto/identity.proto");
+    Ok(())
+}
+
+
+🧩 Rule:
+
+Never edit generated files in src/grpc/generated/.
+
+They are rebuilt automatically during cargo build or cargo run.
+
+📜 Cargo.toml
+
+Purpose: Defines crate info and dependencies.
+
+[package]
+name = "digital_identification"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+tonic = "0.12"
+prost = "0.13"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.8", features = ["postgres", "runtime-tokio-rustls"] }
+dotenvy = "0.15"
+uuid = { version = "1", features = ["v4"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+
+💡 Rule:
+Pin dependency versions for CI consistency and document every new crate’s purpose.
+
+🧩 proto/identity.proto
+
+Defines cross-language gRPC contract for the Digital Identity service.
+
+syntax = "proto3";
+
+package stanforis.identity.v1;
+
+service DigitalIdentity {
+  rpc RegisterIdentity (RegisterRequest) returns (RegisterResponse);
+  rpc GetIdentity (GetRequest) returns (GetResponse);
+}
+
+message RegisterRequest {
+  string national_id = 1;
+  string name = 2;
+  string phone = 3;
+  string email = 4;
+}
+
+message RegisterResponse {
+  string id = 1;
+  string status = 2;
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+}
+
+
+🧠 Rule:
+Increment package version (v1 → v2) for breaking API changes.
+
+🗄️ Database — db/schema.sql
+
+Defines the canonical PostgreSQL schema.
+
+CREATE TABLE IF NOT EXISTS identities (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  national_id VARCHAR(20) NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  phone TEXT,
+  email TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+
+💡 Rules:
+
+Schema migrations handled by sqlx migrate.
+
+Never modify production tables directly.
+
+⚙️ Configuration — config/digital_identification.env
+
+Example local environment file:
+
+DATABASE_URL=postgres://stanforis_user:stanforis_pass@localhost:5432/stanforis_identity
+RUST_LOG=info
+
+
+🔒 Rule:
+Do not commit real credentials; use .env.local for testing.
+
+🧩 Source Files
+🟢 src/main.rs
+
+Entry point — starts the async gRPC server.
+
+use digital_identification::start_server;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    dotenvy::dotenv().ok();
+    tracing_subscriber::fmt::init();
+    start_server().await?;
+    Ok(())
+}
+
+🟣 src/lib.rs
+
+Service initializer & module imports.
+
+pub mod grpc;
+pub mod db;
+pub mod models;
+
+use tonic::transport::Server;
+use grpc::identity_service::IdentityService;
+
+pub async fn start_server() -> Result<(), Box<dyn std::error::Error>> {
+    let addr = "0.0.0.0:50051".parse()?;
+    let svc = IdentityService::default();
+
+    println!("✅ Digital Identity service running on {}", addr);
+
+    Server::builder()
+        .add_service(IdentityService::new_service(svc))
+        .serve(addr)
+        .await?;
+
+    Ok(())
+}
+
+
+💡 Rule:
+All initialization logic stays here (no DB code or heavy logic in main.rs).
+
+🔵 src/models/identity.rs
+
+Identity model struct shared across DB and gRPC layers.
+
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
+use sqlx::FromRow;
+
+#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
+pub struct Identity {
+    pub id: Uuid,
+    pub national_id: String,
+    pub name: String,
+    pub phone: Option<String>,
+    pub email: Option<String>,
+}
+
+impl Identity {
+    pub fn new(national_id: String, name: String, phone: Option<String>, email: Option<String>) -> Self {
+        Self {
+            id: Uuid::new_v4(),
+            national_id,
+            name,
+            phone,
+            email,
+        }
+    }
+}
+
+🟠 src/db/mod.rs
+pub mod postgres;
+
+
+🧩 Rule:
+Use this file only to export modules — no logic inside.
+
+🟠 src/db/postgres.rs
+use sqlx::{Pool, Postgres, postgres::PgPoolOptions};
+
+pub async fn get_pool() -> Pool<Postgres> {
+    let db_url = std::env::var("DATABASE_URL")
+        .expect("DATABASE_URL must be set in digital_identification.env");
+    PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&db_url)
+        .await
+        .expect("Cannot connect to Postgres")
+}
+
+
+💡 Rule:
+Always use get_pool() to get a connection — never connect directly.
+
+🔴 src/grpc/identity_service.rs
+
+Implements gRPC methods for DigitalIdentity.
+
+use tonic::{Request, Response, Status};
+use crate::models::identity::Identity;
+use crate::db::postgres::get_pool;
+use sqlx::query_as;
+use std::sync::Arc;
+
+pub mod pb {
+    tonic::include_proto!("stanforis.identity.v1");
+}
+
+use pb::digital_identity_server::{DigitalIdentity, DigitalIdentityServer};
+use pb::{RegisterRequest, RegisterResponse, GetRequest, GetResponse};
+
+#[derive(Debug, Default)]
+pub struct IdentityService {
+    db_pool: Option<Arc<sqlx::Pool<sqlx::Postgres>>>,
+}
+
+impl IdentityService {
+    pub fn new_service(svc: IdentityService) -> DigitalIdentityServer<IdentityService> {
+        DigitalIdentityServer::new(svc)
+    }
+}
+
+#[tonic::async_trait]
+impl DigitalIdentity for IdentityService {
+    async fn register_identity(
+        &self,
+        request: Request<RegisterRequest>,
+    ) -> Result<Response<RegisterResponse>, Status> {
+        let req = request.into_inner();
+        let pool = get_pool().await;
+
+        let id = uuid::Uuid::new_v4();
+        let _ = sqlx::query!(
+            "INSERT INTO identities (id, national_id, name, phone, email) VALUES ($1, $2, $3, $4, $5)",
+            id,
+            req.national_id,
+            req.name,
+            req.phone,
+            req.email
+        )
+        .execute(&pool)
+        .await
+        .map_err(|e| Status::internal(format!("DB insert error: {}", e)))?;
+
+        Ok(Response::new(RegisterResponse {
+            id: id.to_string(),
+            status: "Registered".into(),
+        }))
+    }
+
+    async fn get_identity(
+        &self,
+        request: Request<GetRequest>,
+    ) -> Result<Response<GetResponse>, Status> {
+        let id = request.into_inner().id;
+        let pool = get_pool().await;
+
+        let result: Identity = query_as::<_, Identity>("SELECT * FROM identities WHERE id = $1")
+            .bind(uuid::Uuid::parse_str(&id).map_err(|_| Status::invalid_argument("Invalid UUID"))?)
+            .fetch_one(&pool)
+            .await
+            .map_err(|_| Status::not_found("Identity not found"))?;
+
+        Ok(Response::new(GetResponse {
+            id: result.id.to_string(),
+            name: result.name,
+            email: result.email.unwrap_or_default(),
+            phone: result.phone.unwrap_or_default(),
+        }))
+    }
+}
+
+
+💡 Rules:
+
+Use descriptive error messages.
+
+Return Status::invalid_argument for bad input, not generic internal errors.
+
+Keep queries parameterized ($1, $2, etc.) for security.
+
+🚀 Running Locally
+cd backend/api/auth/digital_identification
+cargo build
+cargo run
+
+
+✅ Expected output:
+
+✅ Digital Identity service running on 0.0.0.0:50051
+
+🧪 Testing (Optional)
+
+Python gRPC client:
+
+import grpc
+from proto import identity_pb2, identity_pb2_grpc
+
+channel = grpc.insecure_channel("localhost:50051")
+stub = identity_pb2_grpc.DigitalIdentityStub(channel)
+
+req = identity_pb2.RegisterRequest(
+    national_id="11999001123",
+    name="Alice Rwanda",
+    phone="+250788123456",
+    email="alice@example.com"
+)
+res = stub.RegisterIdentity(req)
+print(res)
+
+🧾 Developer Commit Rules
+Rule	Description
+1	Each commit must reflect a single, testable change
+2	Always document new dependencies in Cargo.toml
+3	Never commit compiled .rs files under /generated/
+4	Follow semantic versioning when changing the gRPC API
+5	Push code using clear messages like feat(digital_identity): add register_identity
+
+✅ Status:
+This README documents all file roles, directory rules, and integration workflow for digital_identification microservice.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+digital_identification/
+├── Cargo.toml
+├── build.rs
+├── src/
+│   ├── main.rs
+│   ├── lib.rs
+│   ├── grpc/
+│   │   ├── mod.rs
+│   │   └── identity_service.rs
+│   ├── db/
+│   │   ├── mod.rs
+│   │   └── postgres.rs
+│   └── models/
+│       └── identity.rs
+├── proto/
+│   └── identity.proto                //protoc --proto_path=proto --rust_out=src --grpc_out=src proto/identity.proto
+├── config/
+│   └── digital_identification.env
+└── README.md
+<!-- 
+
+cd backend/api/auth/digital_identification
+cargo run
+
+You should see:
+
+✅ Digital Identity service running on 0.0.0.0:50051 -->

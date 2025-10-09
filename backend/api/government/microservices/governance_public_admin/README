@@ -1,0 +1,71 @@
+governance_public_admin/
+└── microservices
+    ├── administrative_services
+    │   ├── citizen_registration
+    │   ├── national_id_management
+    │   ├── permits_and_licenses
+    │   ├── document_archives
+    │   └── public_records_management
+    │
+    ├── policy_and_legislation
+    │   ├── law_repository
+    │   ├── policy_monitoring
+    │   ├── legislative_drafting
+    │   ├── impact_assessment
+    │   └── international_treaty_tracking
+    │
+    ├── finance_and_budgeting
+    │   ├── national_budget_management
+    │   ├── public_expenditure_tracking
+    │   ├── grants_and_subsidies
+    │   ├── auditing_and_reporting
+    │   └── treasury_integration
+    │
+    ├── human_resources
+    │   ├── civil_servant_registry
+    │   ├── payroll_management
+    │   ├── performance_evaluation
+    │   ├── recruitment_and_training
+    │   └── professional_development
+    │
+    ├── e_governance_services
+    │   ├── citizen_portal
+    │   ├── digital_service_delivery
+    │   ├── complaint_resolution
+    │   ├── feedback_and_survey
+    │   └── open_government_data
+    │
+    ├── public_safety_and_security
+    │   ├── emergency_services
+    │   ├── disaster_management
+    │   ├── law_enforcement_integration
+    │   ├── crisis_response_analytics
+    │   └── surveillance_and_monitoring
+    │
+    ├── ai_and_data_analytics
+    │   ├── predictive_policy_models
+    │   ├── citizen_behavior_analysis
+    │   ├── governance_dashboard
+    │   ├── risk_assessment_ai
+    │   └── national_statistics_integration
+    │
+    ├── transparency_and_accountability
+    │   ├── audit_trails
+    │   ├── corruption_monitoring
+    │   ├── public_reporting
+    │   ├── whistleblower_systems
+    │   └── ethics_compliance
+    │
+    ├── intergovernmental_integration
+    │   ├── federal_regional_coordination
+    │   ├── agency_data_exchange
+    │   ├── workflow_automation
+    │   ├── api_gateway
+    │   └── event_bus_integration
+    │
+    └── community_engagement
+        ├── citizen_education_programs
+        ├── public_consultations
+        ├── participatory_budgeting
+        ├── civic_initiatives_tracking
+        └── ngo_and_partner_collaboration

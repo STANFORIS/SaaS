@@ -1,0 +1,82 @@
+rwandan_digitalMarket/
+└── microservices/
+    ├── marketplaces/
+    │   ├── wholesale/
+    │   ├── retail/
+    │   ├── ecommerce/
+    │   ├── export_import/
+    │   ├── rural_markets/
+    │   ├── industrial_markets/
+    │   └── README
+    │
+    ├── logistics_supplychain/
+    │   ├── transport/
+    │   ├── warehousing/
+    │   ├── inventory_management/
+    │   ├── distribution_networks/
+    │   ├── tracking_tracing/
+    │   ├── delivery_services/
+    │   └── README
+    │
+    ├── finance_payments/
+    │   ├── mobile_money/
+    │   ├── digital_wallets/
+    │   ├── credit_lending/
+    │   ├── insurance_schemes/
+    │   ├── capital_markets/
+    │   ├── investment_funds/
+    │   └── README
+    │
+    ├── cooperatives_smes/
+    │   ├── agricultural_coops/
+    │   ├── industrial_smes/
+    │   ├── women_youth_enterprises/
+    │   ├── innovation_clusters/
+    │   └── README
+    │
+    ├── agriculture_valuechains/
+    │   ├── crop_markets/
+    │   ├── livestock_markets/
+    │   ├── fisheries/
+    │   ├── agritech_services/
+    │   ├── farm_input_supply/
+    │   └── README
+    │
+    ├── service_industries/
+    │   ├── tourism/
+    │   ├── hospitality/
+    │   ├── creative_industries/
+    │   ├── professional_services/
+    │   └── README
+    │
+    ├── manufacturing_industry/
+    │   ├── production_units/
+    │   ├── industrial_zones/
+    │   ├── product_certification/
+    │   ├── export_quality_standards/
+    │   └── README
+    │
+    ├── trade_regulations/
+    │   ├── customs_clearance/
+    │   ├── taxation/
+    │   ├── standards_certification/
+    │   ├── trade_agreements/
+    │   ├── import_export_licensing/
+    │   └── README
+    │
+    ├── data_market_intelligence/
+    │   ├── price_indexing/
+    │   ├── demand_forecasting/
+    │   ├── market_trends_analytics/
+    │   ├── sentiment_analysis/
+    │   ├── sustainability_metrics/
+    │   └── README
+    │
+    ├── public_integration/
+    │   ├── government_procurement/
+    │   ├── policy_frameworks/
+    │   ├── smart_contracts/
+    │   ├── interoperability_apis/
+    │   └── README
+    │
+    └── README
