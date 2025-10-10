@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rwanda Location Dropdowns Test</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    select { margin: 5px; padding: 5px; min-width: 200px; }
+    label { display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Rwanda Location Dropdowns Test</h1>
+
+  <label>Province
+    <select id="province"></select>
+  </label>
+  <label>District
+    <select id="district"></select>
+  </label>
+  <label>Sector
+    <select id="sector"></select>
+  </label>
+  <label>Cell
+    <select id="cell"></select>
+  </label>
+  <label>Village
+    <select id="village"></select>
+  </label>
+
+  <script type="module">
+    import '../geoTowindow.js';
+
+
+    // Bind the dropdowns to the geo data
+    window.bindChainDropdowns({
+      provinceId: "province",
+      districtId: "district",
+      sectorId: "sector",
+      cellId: "cell",
+      villageId: "village"
+    });
+  </script>
+</body>
+</html>

@@ -30,7 +30,11 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+<<<<<<< HEAD
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+=======
+      home: const MyHomePage(title: 'Stanforis Rwanda'),
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
     );
   }
 }

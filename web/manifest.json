@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "stanforis_rwanda_interoperability",
     "short_name": "stanforis_rwanda_interoperability",
+=======
+    "name": "stanforis_rwanda",
+    "short_name": "stanforis_rwanda",
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

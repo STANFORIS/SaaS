@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # flutter --version
 # C:\Users\Stanforis>flutter upgrade
@@ -13,6 +14,9 @@
 
 
 name: stanforis_rwanda_interoperability
+=======
+name: stanforis_rwanda
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -41,6 +45,7 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+<<<<<<< HEAD
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -72,13 +77,30 @@ dependency_overrides:
 
 
 
+=======
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+<<<<<<< HEAD
   
+=======
+  flutter_lints: ^5.0.0
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

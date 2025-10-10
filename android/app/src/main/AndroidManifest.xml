@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
+<<<<<<< HEAD
         android:label="stanforis_rwanda_interoperability"
+=======
+        android:label="stanforis_rwanda"
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

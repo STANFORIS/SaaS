@@ -8,7 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+<<<<<<< HEAD
 import 'package:stanforis_rwanda_interoperability/main.dart';
+=======
+import 'package:stanforis_rwanda/main.dart';
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

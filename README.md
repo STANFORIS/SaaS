@@ -1,6 +1,7 @@
 # STANFORIS RWANDA MULT_CONTINUUM SYSTEMS INTEROPERABILITY
 
 ```
+<<<<<<< HEAD
                   ███████╗████████╗ █████╗ ███╗   ██╗███████╗ ██████╗ ██████╗ 
                   ██╔════╝╚══██╔══╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔═══██╗
                   ███████╗   ██║   ███████║██╔██╗ ██║█████╗  ██║     ██║   ██║
@@ -19,6 +20,26 @@
 >
 > **Version:** 2.0.0
 >
+=======
+                ███████╗████████╗ █████╗ ███╗   ██╗███████╗ ██████╗ ██████╗ 
+                ██╔════╝╚══██╔══╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔═══██╗
+                ███████╗   ██║   ███████║██╔██╗ ██║█████╗  ██║     ██║   ██║
+                ╚════██║   ██║   ██╔══██║██║╚██╗██║██╔══╝  ██║     ██║   ██║
+                ███████║   ██║   ██║  ██║██║ ╚████║███████╗╚██████╗╚██████╔╝
+                ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═════╝  
+    “Stanforis Federal, Intelligent, Universal Data Interoperability Continuum Unity”
+───────────────────────────────────────────────────────────────────────────────────────────
+```
+
+> **Project:** Stanforis Rwanda Mult_Continuum Systems Interoperability
+> 
+> **Author:** IRABARUTA Aminadabu (Lunar)
+> 
+> **Company:** STANFORIS RESEARCH & SCIENTIFIC AUTHORITY
+> 
+> **Version:** 2.0.0
+> 
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 > **Purpose:** National-Scale Interoperability Platform for Digital Twin Systems
 
 ---
@@ -31,6 +52,7 @@ The ecosystem integrates **AI, IoT, Microservices, and Mobile-First interfaces**
 
 ---
 
+<<<<<<< HEAD
 ## 2. Vision & Goals
 
 **Vision:**
@@ -76,6 +98,8 @@ By default, every sector microservice, IoT device, and mobile application in the
 ---
 
 
+=======
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 ## ⚙️ Technology Stack Summary
 
 | Layer                                | Core Technology                                                   | Purpose                                                                                                   |
@@ -233,6 +257,7 @@ Each domain sector (Agriculture, Energy, Health, Finance, etc.) is a **NodeJS mi
 
 ```
  IoT → HiveMQ → NodeJS Microservice → Kafka → AI (Python) → Data Lake (ClickHouse) → Flutter GUI
+<<<<<<< HEAD
 
 Database & Data Lake Layer:
 
@@ -260,6 +285,10 @@ Isar DB (local mobile storage)
 * Camera, GPS, Accelerometer, Gyroscope, Magnetometer, Barometer, Proximity, Light Sensor, Microphone, Biometric Sensors
 * Flutter plugins & React Native modules to access all mobile sensors
 
+=======
+```
+
+>>>>>>> 59961d73dc95257044d590a3fb0e7d65dd1eed48
 ---
 
 ## ⚡ Key Highlights
