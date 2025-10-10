@@ -300,11 +300,10 @@ Firebase RTDB & Firestore (optional cloud sync)
 ├─ 📁 test
 ├─ 📁 web                                           // Foccussed on This Version More
 └─ 📁 windows
-
----
-
 ---
 * **Overview:** Backend Entry Overview
+---
+
 📁 backend
 ├─ 📁 api
 ├─ 📁 auth
@@ -316,6 +315,7 @@ Firebase RTDB & Firestore (optional cloud sync)
 
 ---
 * **Overview:** Backend / Auth Entry Overview
+---
 📁 backend
 └─ 📁 auth
    └─ 📁 digital_identification
@@ -343,8 +343,8 @@ Firebase RTDB & Firestore (optional cloud sync)
       └─  This is more respectable
 ---
 
----
 * **Overview:** Backend / API / Sectors Entry Overview
+---
 📁api
 ├─ 📁core
 │   ├─ 📁 agriculture_food_security
@@ -380,9 +380,9 @@ Firebase RTDB & Firestore (optional cloud sync)
 │   ├─ docs
 └─ README
 ---
-
----
 * **Overview:** Backend / API /Sectors/Microservices Entry Overview Example in every Sector
+---
+
 residential
 ├── .env
 ├── package.json
