@@ -84,7 +84,7 @@ By default, every sector microservice, IoT device, and mobile application in the
 | **Microservice Layer (Backend API)** | **NodeJS**                                                        | Sector-specific microservices, REST/gRPC APIs, domain logic                                               |
 | **Backend AI Engine (ML)**           | **Python**                                                        | AI/ML inference, predictive modeling, simulation, and analytics                                           |
 | **IoT Device Layer**                 | **HiveMQ (MQTT)**                                                 | Real-time IoT device communication and telemetry stream routing                                           |
-| **Event Bus Layer**                  | **Apache Kafka**                                                  | High-throughput, durable, event-driven backbone                                                           |
+| **Event Bus Layer**                  | **NATS**                                                  | High-throughput, durable, event-driven backbone                                                           |
 | **Data Lake Layer**                  | **ClickHouse / TimescaleDB**                                      | Analytics and time-series data warehousing                                                                |
 | **Mobile Sensors Layer**             | **Full Sensor Support**                                           | Access to GPS, Accelerometer, Gyroscope, Magnetometer, Barometer, Heart Rate, Environmental Sensors, etc. |
 | **Database Layer**                   | **LocalHost + SurrealDB + Firebase RTDB + Firestore + S3** | Hybrid offline/online sync system                                                                         |
@@ -163,6 +163,7 @@ Each domain sector (Agriculture, Energy, Health, Finance, etc.) is a **NodeJS mi
 * Data written back to ClickHouse / Firestore for visualization in Flutter.
 
 ---
+
 
 ## 🌐 IoT & Sensors Layer
 
@@ -271,6 +272,218 @@ Firebase RTDB & Firestore (optional cloud sync)
 * Scalable, modular, and sovereign data design.
 
 ---
+
+## MAIN DIRECTORIES IN THE PROJECT
+---
+* **Overview:** Project Entry Overview
+📁 stanforis_rwanda_interoperability
+├─ 📁 .dart_tool
+├─ 📄 .flutter-plugins-dependencies
+├─ 📄 .gitignore
+├─ 📁 .idea
+├─ 📄 .metadata
+├─ 📄 analysis_options.yaml
+├─ 📁 android               //             Foccussed on This Version More
+├─ 📁 backend                                      // This is where our BACKEND Lives + Digital Identity By Default
+├─ 📁 docs
+├─ 📄 installed_dependances.md
+├─ 📁 ios
+├─ 📁 lib      // This is where FRONTEND Lives and its Written in FLUTTER + Its Hybrid designs insipired by Tesla Mobile GUI & SpaceX GUIs
+├─ 📁 linux
+├─ 📁 macos
+├─ 🖼️ power_image.png
+├─ 📄 project_dir.md
+├─ 📄 pubspec.lock
+├─ 📄 pubspec.yaml
+├─ 📄 README.md
+├─ 📄 stanforis_rwanda_interoperability.iml
+├─ 📁 test
+├─ 📁 web                                           // Foccussed on This Version More
+└─ 📁 windows
+
+---
+
+---
+* **Overview:** Backend Entry Overview
+📁 backend
+├─ 📁 api
+├─ 📁 auth
+├─ 📁 node_modules
+├─ 📄 package-lock.json
+├─ 📄 package.json
+├─ 📁 shared_global_services_models
+└─ 📁 venv
+
+---
+* **Overview:** Backend / Auth Entry Overview
+📁 backend
+└─ 📁 auth
+   └─ 📁 digital_identification
+      ├─ 📄 .env
+      ├─ 📁 dist
+      ├─ 📁 node_modules
+      ├─ 📄 package-lock.json
+      ├─ 📄 package.json
+      ├─ 📁 proto
+      ├─ 📄 README.md
+      ├─ 📁 src
+      │  ├─ 📄 app.module.ts
+      │  ├─ 📄 main.ts
+      │  ├─ 📄 nats.ts
+      │  └─ 📁 digital_identity
+      │     ├─ 📄 digital_identity.controller.ts
+      │     ├─ 📄 digital_identity.grpc.ts
+      │     ├─ 📄 digital_identity.module.ts
+      │     ├─ 📄 digital_identity.service.ts
+      │     ├─ 📁 db
+      │     │  └─ 📄 surreal.service.ts
+      │     └─ 📁 dto
+      │        ├─ 📄 digital_identity.dto.ts
+      │        └─ 📄 enums.ts
+      └─  This is more respectable
+---
+
+---
+* **Overview:** Backend / API / Sectors Entry Overview
+📁api
+├─ 📁core
+│   ├─ 📁 agriculture_food_security
+│   ├─ 📁 companies
+│   ├─ 📁 core
+│   ├─ 📁 education_research_innovation
+│   ├─ 📁 forestry_energy_water_environment
+│   ├─ 📁 geospatial_landrules
+│   ├─ 📁 government
+│   ├─ 📁 hospitals
+│   ├─ 📁 housing_infrastructure_urban
+│   ├─ 📁 industry_manufacturing_mining
+│   ├─ 📁 international_cooperation
+│   ├─ 📁 internet_of_things
+│   ├─ 📁 media_information
+│   ├─ 📁 ngos
+│   ├─ 📁 residential
+│   ├─ 📁 rwandan_digitalMarket
+│   ├─ 📁 scientific
+│   ├─ 📁 security_defense_justice
+│   ├─ 📁 shared_global_services_models
+│   ├─ 📁 social_protection_communit
+│   ├─ 📁 stanforis_atherium_universe_digital_electronic_money
+│   ├─ 📁 telecommunications_digital
+│   └─ 📁 tourism_culture_entertainment
+├─ 📁api_level_helpers
+│   ├─ docs
+├─ 📁api_level_watcherdogs
+│   ├─ docs
+├─ 📁api_level_configurations
+│   ├─ docs
+├─ 📁shared_global_services_models
+│   ├─ docs
+└─ README
+---
+
+---
+* **Overview:** Backend / API /Sectors/Microservices Entry Overview Example in every Sector
+residential
+├── .env
+├── package.json
+├── package-lock.json
+├── README.md
+├── node_modules/
+└── src/
+    ├── app.module.ts
+    ├── main.ts
+    ├── nats.ts
+    ├── db/
+    │   └── surreal.service.ts
+    ├── dto/
+    │   ├── dto.ts
+    │   └── enums.ts
+    └── microservices/
+        ├── digital_identity_based_service_access/
+        │   ├── ai_and_analytics/
+        │   │   ├── anomaly_detection/
+        │   │   ├── predictive_service_recommendation/
+        │   │   ├── security_risk_scoring/
+        │   │   ├── service_optimization_ai/
+        │   │   └── usage_pattern_analysis/
+        │   ├── authentication_and_authorization/
+        │   │   ├── multi_factor_authentication/
+        │   │   ├── oauth2_gateway/
+        │   │   ├── role_based_access_control/
+        │   │   ├── session_management/
+        │   │   └── token_management/
+        │   ├── compliance_and_privacy/
+        │   │   ├── audit_trails/
+        │   │   ├── consent_management/
+        │   │   ├── data_protection/
+        │   │   ├── GDPR_and_local_regulations/
+        │   │   └── privacy_policy_enforcement/
+        │   ├── identity_management/
+        │   │   ├── biometrics_authentication/
+        │   │   ├── citizen_registry/
+        │   │   ├── digital_passports/
+        │   │   ├── identity_lifecycle_management/
+        │   │   └── national_id_verification/
+        │   ├── interoperability_hub/
+        │   │   ├── api_gateway/
+        │   │   ├── cross_sector_service_federation/
+        │   │   ├── event_bus_integration/
+        │   │   ├── national_digital_identity_standards/
+        │   │   └── secure_data_exchange/
+        │   └── service_access_portal/
+        │       ├── educational_services_access/
+        │       ├── government_services_access/
+        │       ├── healthcare_services_access/
+        │       ├── local_residential_services_access/
+        │       └── utility_services_access/
+        └── utilities_smart_home/
+            ├── ai_and_analytics/
+            │   ├── anomaly_detection/
+            │   ├── consumption_pattern_analysis/
+            │   ├── predictive_maintenance/
+            │   ├── resource_optimization/
+            │   └── user_behavior_recommendation/
+            ├── energy_management/
+            │   ├── consumption_monitoring/
+            │   ├── demand_response_ai/
+            │   ├── energy_billing/
+            │   ├── renewable_integration/
+            │   └── smart_metering/
+            ├── gas_management/
+            │   ├── automated_shutoff/
+            │   ├── billing_integration/
+            │   ├── consumption_monitoring/
+            │   ├── leak_detection/
+            │   └── smart_metering/
+            ├── interoperability_hub/
+            │   ├── api_gateway/
+            │   ├── cross_sector_integration/
+            │   ├── digital_identity_integration/
+            │   ├── mqtt_kafka_bridge/
+            │   └── secure_data_exchange/
+            ├── smart_home_automation/
+            │   ├── appliance_management/
+            │   ├── energy_saving_ai/
+            │   ├── HVAC_control/
+            │   ├── lighting_control/
+            │   └── security_systems/
+            ├── waste_management/
+            │   ├── pickup_scheduling/
+            │   ├── recycling_tracking/
+            │   ├── reporting_dashboard/
+            │   ├── route_optimization/
+            │   └── smart_bins/
+            └── water_management/
+                ├── billing_and_payments/
+                ├── consumption_tracking/
+                ├── leak_detection_ai/
+                ├── smart_metering/
+                └── water_quality_monitoring/
+
+---
+##  Other Sectors Has Microservices Levels too
+---
+
 
 ## 🧭 Final Words
 
