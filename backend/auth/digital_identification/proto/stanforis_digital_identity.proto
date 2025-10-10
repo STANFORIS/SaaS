@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package stanforis.auth.digital_id;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.stanforis.auth.digitalid";
+option objc_class_prefix = "SDIP";
+
+////////////////////////////////////////////////////////////////////////////////
+// ENUMS
+////////////////////////////////////////////////////////////////////////////////
+
+enum Gender {
+    UNKNOWN = 0;
+    MALE = 1;
+    FEMALE = 2;
+    OTHER = 3;
+}
+
+enum MaritalStatus {
+    SINGLE = 0;
+    MARRIED = 1;
+    DIVORCED = 2;
+    WIDOWED = 3;
+}
+
+enum IdentityStatus {
+    PENDING = 0;
+    ACTIVE = 1;
+    SUSPENDED = 2;
+    REVOKED = 3;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// REQUEST MESSAGES
+////////////////////////////////////////////////////////////////////////////////
+
+message IdentityRegisterRequest {
+    // National ID
+    string national_id = 1;
+    string first_name = 2;
+    string middle_name = 3;
+    string last_name = 4;
+    string date_of_birth = 5;
+    Gender gender = 6;
+
+    // Place of birth
+    string nationality = 7;
+    string province = 8;
+    string district = 9;
+    string sector = 10;
+    string cell = 11;
+    string village = 12;
+    string isibo = 13;
+
+    // Contact
+    string phone = 14;
+    string email = 15;
+    string address = 16;
+
+    // Biometrics
+    bytes fingerprint_data = 17;
+    bytes face_image_data = 18;
+    bytes iris_scan_data = 19;
+
+    // Cryptography
+    bytes public_key = 20;
+
+    // Marital & occupation
+    MaritalStatus marital_status = 21;
+    string occupation = 22;
+
+    // Registration metadata
+    string registration_source = 23;
+    google.protobuf.Timestamp request_timestamp = 24;
+    string registrar_id = 25;
+    string registration_center_id = 26;
+    string device_id = 27;
+
+    // System login
+    string system_unique_email_id = 28;
+    string username = 29;
+    string password = 30;
+}
+
+message IdentityLoginRequest {
+    string username = 1;
+    string password = 2;
+    string device_id = 3;
+}
+
+message IdentityVerifyRequest {
+    string token = 1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// RESPONSE MESSAGES
+////////////////////////////////////////////////////////////////////////////////
+
+message IdentityRegisterResponse {
+    string digital_identity_id = 1; // System-generated unique ID
+    string token = 2;               // JWT or SDIP token
+    IdentityStatus status = 3;
+    string message = 4;             // Success/Error message
+}
+
+message IdentityLoginResponse {
+    string digital_identity_id = 1;
+    string token = 2;               
+    IdentityStatus status = 3;
+    string message = 4;
+}
+
+message IdentityVerifyResponse {
+    bool valid = 1;
+    string digital_identity_id = 2;
+    IdentityStatus status = 3;
+    string message = 4;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// EVENTS / KAFKA MESSAGES
+////////////////////////////////////////////////////////////////////////////////
+
+message IdentityRegisteredEvent {
+    string digital_identity_id = 1;
+    string national_id = 2;
+    google.protobuf.Timestamp registered_at = 3;
+    string registrar_id = 4;
+    string registration_center_id = 5;
+}
+
+message IdentityLoginEvent {
+    string digital_identity_id = 1;
+    google.protobuf.Timestamp login_at = 2;
+    string device_id = 3;
+}
+
+message IdentityVerificationEvent {
+    string digital_identity_id = 1;
+    bool verified = 2;
+    google.protobuf.Timestamp verified_at = 3;
+    string service_requested = 4; // Name of microservice or frontend screen
+}
+
