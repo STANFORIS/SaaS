@@ -87,7 +87,7 @@ By default, every sector microservice, IoT device, and mobile application in the
 | **Event Bus Layer**                  | **Apache Kafka**                                                  | High-throughput, durable, event-driven backbone                                                           |
 | **Data Lake Layer**                  | **ClickHouse / TimescaleDB**                                      | Analytics and time-series data warehousing                                                                |
 | **Mobile Sensors Layer**             | **Full Sensor Support**                                           | Access to GPS, Accelerometer, Gyroscope, Magnetometer, Barometer, Heart Rate, Environmental Sensors, etc. |
-| **Database Layer**                   | **Isar + LocalHost + SurrealDB + Firebase RTDB + Firestore + S3** | Hybrid offline/online sync system                                                                         |
+| **Database Layer**                   | **LocalHost + SurrealDB + Firebase RTDB + Firestore + S3** | Hybrid offline/online sync system                                                                         |
 
 ---
 
@@ -128,7 +128,7 @@ By default, every sector microservice, IoT device, and mobile application in the
 ## 💎 Core Design Principles
 
 * **Interoperability by Design:** All modules communicate via schema-defined protocols.
-* **Offline-First Capability:** Isar + SurrealDB for local storage and auto-sync.
+* **Offline-First Capability:** SurrealDB for local storage and auto-sync.
 * **AI-Ready Infrastructure:** ClickHouse + Python for large-scale analytics.
 * **High Responsiveness:** Flutter UI + NodeJS microservices ensure smooth cross-device operation.
 * **Sector Isolation:** Each microservice is self-contained and independently deployable.
@@ -183,7 +183,7 @@ Each domain sector (Agriculture, Energy, Health, Finance, etc.) is a **NodeJS mi
 
 | Type                  | Database                           | Role                                        |
 | --------------------- | ---------------------------------- | ------------------------------------------- |
-| **Offline Cache**     | **Isar + LocalHost**               | Local high-performance persistence          |
+| **Offline Cache**     | **SurrealDB+ LocalHost**               | Local high-performance persistence          |
 | **Graph/Realtime**    | **SurrealDB**                      | Live data graphing and live queries         |
 | **Online Cloud Sync** | **Firebase RTDB / Firestore / S3** | Remote synchronization                      |
 | **Analytics Layer**   | **ClickHouse / TimescaleDB**       | Stream analytics and national observability |
@@ -211,7 +211,7 @@ Each domain sector (Agriculture, Energy, Health, Finance, etc.) is a **NodeJS mi
 
 ```
  ┌──────────────┐     ┌──────────────┐
- │  Isar DB     │<───>│ SurrealDB    │<───> Firebase RTDB / Firestore
+ │  Localstorage DB     │<───>│ SurrealDB    │<───> Firebase RTDB / Firestore
  └──────────────┘     └──────────────┘
        │                    │
        ▼                    ▼
@@ -252,7 +252,7 @@ MinIO / AWS S3 (object storage)
 
 Firebase RTDB & Firestore (optional cloud sync)
 
-Isar DB (local mobile storage)
+ DB (local mobile storage)
 ```
 
 **Mobile Sensors & Device Integration:**
@@ -265,7 +265,7 @@ Isar DB (local mobile storage)
 ## ⚡ Key Highlights
 
 * Real-time AI-powered dashboards.
-* Fully Flutter-native GUI with hybrid Isar/SurrealDB local persistence.
+* Fully Flutter-native GUI with hybrid SurrealDB local persistence.
 * End-to-end event-driven system.
 * Seamless offline operation and sync.
 * Scalable, modular, and sovereign data design.
