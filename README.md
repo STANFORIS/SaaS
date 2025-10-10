@@ -203,7 +203,7 @@ Each domain sector (Agriculture, Energy, Health, Finance, etc.) is a **NodeJS mi
  [NodeJS Microservices] ⇄ [Python ML Engine]
       │                      │
       ▼                      ▼
- [Apache Kafka] ⇄ [ClickHouse / TimescaleDB]
+ [NATS] ⇄ [ClickHouse / TimescaleDB]
       │
       ▼
  [HiveMQ IoT Broker] ⇄ [Mobile Sensors / Devices]
