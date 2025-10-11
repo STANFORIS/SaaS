@@ -25,6 +25,31 @@
 > **National Digital Twin & Interoperability System**
 > Built for seamless integration across government, industry, and society — enabling a smart, connected, and data-driven Rwanda.
 
+
+## Key Sections:
+
+1. Overview – National Digital Twin & Interoperability System
+2. Vision & Goals
+3. Core Principles
+4. High-Level Architecture
+5. Directory Layout
+6. Databases & Data Layers
+7. Eventing, Messaging & Streaming
+8. API & Interoperability (X-Road Inspired)
+9. Security, Privacy & Data Sovereignty
+10. Offline-first, Sync & Conflict Resolution
+11. Rust ↔ Dart Integration
+12. CI/CD, Deployment & Operational Guide
+13. Development Environment
+14. Coding Standards & Conventions
+15. Testing Strategy
+16. Monitoring, Logging & Observability
+17. Backup & Disaster Recovery
+18. Data Respect, Ethics & Governance
+19. Contribution Guide
+20. License & Acknowledgements
+21. Roadmap
+22. Appendix (Diagrams, Sample Configs, Dot Graphs)
 ---
 ## 🌍 Overview
 
